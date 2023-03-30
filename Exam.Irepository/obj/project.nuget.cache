@@ -1,0 +1,13 @@
+{
+  "version": 2,
+  "dgSpecHash": "bEOg40jQ8OcsrW0OQT5ak63Hy9tblRmabEzPV/PoyHcCvtfUAiM60kGQtLxoBVgyszeuMrCBhJ/RP7Brn8t1PA==",
+  "success": true,
+  "projectFilePath": "C:\\Users\\sushanta.senapati\\Desktop\\web Api\\SecondMonthExam\\DownloadExcelFromDataBase\\Exam.Irepository\\Exam.Irepository.csproj",
+  "expectedPackageFiles": [
+    "C:\\Users\\sushanta.senapati\\.nuget\\packages\\microsoft.aspnetcore.http.features\\5.0.17\\microsoft.aspnetcore.http.features.5.0.17.nupkg.sha512",
+    "C:\\Users\\sushanta.senapati\\.nuget\\packages\\microsoft.extensions.primitives\\5.0.1\\microsoft.extensions.primitives.5.0.1.nupkg.sha512",
+    "C:\\Users\\sushanta.senapati\\.nuget\\packages\\system.io.pipelines\\5.0.2\\system.io.pipelines.5.0.2.nupkg.sha512",
+    "C:\\Users\\sushanta.senapati\\.nuget\\packages\\system.runtime.compilerservices.unsafe\\5.0.0\\system.runtime.compilerservices.unsafe.5.0.0.nupkg.sha512"
+  ],
+  "logs": []
+}
