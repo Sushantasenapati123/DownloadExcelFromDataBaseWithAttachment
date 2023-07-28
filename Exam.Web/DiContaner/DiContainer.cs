@@ -1,16 +1,17 @@
 ﻿
-using Exam.Irepository.ISport;
+
 using Exam.IRepository.Email;
 using Exam.Repository.Email;
+
+using Exam.Irepository.ISport;
 using Exam.Repository.PatientRepo;
 using FstMonthExam.IRepository.Factory;
 using FstMonthExam.Repository.Factory;
+
+
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Threading.Tasks;
+
 
 namespace Exam.Web.DiContaner
 {

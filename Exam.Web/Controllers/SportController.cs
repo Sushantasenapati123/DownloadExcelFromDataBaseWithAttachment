@@ -7,6 +7,7 @@ using Microsoft.AspNetCore.Hosting;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using Newtonsoft.Json;
+using Serilog;
 using System;
 using System.Collections.Generic;
 using System.IO;
@@ -42,15 +43,24 @@ namespace Exam.Web.Controllers
         }
         public async Task<IActionResult> Sport_Registration()
         {
-            List<Spot> pc1 = new List<Spot>();
-            // DesignationName ds = new DesignationName();//////for search
-            pc1 = await log.BindClub();
-            pc1.Insert(0, new Spot { club_id = 0, club_name = "Select" });
-            ViewBag.UnitName = pc1;
+            try
+            {
+                Log.Information("Sport_Registration Started");
+                List<Spot> pc1 = new List<Spot>();
+                // DesignationName ds = new DesignationName();//////for search
+                pc1 = await log.BindClub();
+                pc1.Insert(0, new Spot { club_id = 0, club_name = "Select" });
+                ViewBag.UnitName = pc1;
+                ViewBag.Result = await log.GetAll(new Spot());
 
-            ViewBag.Result = await log.GetAll(new Spot());
+                return View();
+            }
+            catch (Exception ex)
+            {
+                Log.Error(ex.Message + "\n" + ex.StackTrace);
+                return Json(0);
+            }
 
-            return View();
         }
         public async Task<IActionResult> View_SportRegistration()
         {

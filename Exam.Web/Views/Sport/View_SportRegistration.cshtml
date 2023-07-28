@@ -1,9 +1,17 @@
 ﻿@model Exam.Domain.Sports.Spot
 @{
     ViewData["Title"] = "ViewClient";
-    Layout = "~/Views/Shared/_Layout.cshtml";
+    Layout = null;
     var ResultData = ViewBag.Result as List<Exam.Domain.Sports.Spot>;
 }
+@*<script src="~/lib/jquery/dist/jquery.min.js"></script>*@
+<link href="~/css/bootstrap.min.css" rel="stylesheet">
+<script src="~/js/jquery-3.3.1.min.js"></script>
+<link href="~/Datatable/CSS/buttons.dataTables.min.css" rel="stylesheet" />
+<link href="~/Datatable/CSS/jquery.dataTables.min.css" rel="stylesheet" />
+<script src="~/Datatable/JS/dataTables.buttons.js"></script>
+<script src="~/Datatable/JS/jquery.dataTables.min.js"></script>
+<script src="~/Datatable/JS/buttons.print.js"></script>
 <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.1.2/css/all.min.css">
 <div class="container" id="con">
     <nav aria-label="breadcrumb">
@@ -30,13 +38,13 @@
                         <form asp-controller="Home" asp-action="GetApplicants" method="post">
                             <div class="row">
                                 <!--<div class="form-group col-sm-4">
-                            <label>Sports Name<span class="text-danger">*</span></label>
-                            <select-->
+                                <label>Sports Name<span class="text-danger">*</span></label>
+                                <select-->
                                 @*asp-for="provider_id"*@
                                 <!--onchange="bindconnenctionById();" class="form-control" asp-items=">
-                                <option value="0">Select</option>
-                            </select>
-                        </div>-->
+                                        <option value="0">Select</option>
+                                    </select>
+                                </div>-->
 
 
                                 <div class="form-group ">
@@ -49,9 +57,9 @@
                                 <div>
 
                                     @*<button onclick="ExportToPDF();" data-toggle="tooltip"
-                                        class="btn btn-outline-info float-right mt-2 mb-2" value="PDF">
-                                    <i class='fas fa-file-pdf' style='font-size:30px;color:red'></i>
-                                </button>*@
+                                                class="btn btn-outline-info float-right mt-2 mb-2" value="PDF">
+                                            <i class='fas fa-file-pdf' style='font-size:30px;color:red'></i>
+                                        </button>*@
                                 </div>
                             </div>
                         </form>
@@ -100,9 +108,21 @@
                                         {
                                             <tr>
                                                 <td class="text-center">@count</td>
-                                                <td>
-                                                    @list.Applicant_name
-                                                </td>
+
+                                                @if (@list.Age >= 30)
+                                                {
+                                                    <td>
+                                                        @list.Applicant_name
+                                                    </td>
+                                                }
+                                                else
+                                                {
+                                                    <td>
+                                                        <b class="text-danger"> @list.Applicant_name</b>
+                                                    </td>
+                                                }
+
+
                                                 <td>
                                                     @list.Email
                                                 </td>
@@ -118,9 +138,20 @@
                                                 <td>
                                                     @list.sprot_name
                                                 </td>
-                                                <td>
-                                                    @list.Age
-                                                </td>
+                                                @if (@list.Age >= 30)
+                                                {
+                                                    <td>
+                                                        @list.Age
+                                                    </td>
+                                                }
+                                                else
+                                                {
+                                                    <td>
+                                                        <b class="text-danger"> @list.Age</b>
+                                                    </td>
+                                                }
+
+
                                                 <td>
                                                     <a href="/@list.image_path" download>@list.image_path</a>
                                                 </td>
@@ -145,13 +176,32 @@
         </div>
     </div>
 </div>
-
-
 <script>
+    $(document).ready(function () {
+        getDataTable();
+    })
     function Edit(Registration_Id) {
         if (confirm("Are you sure you want to update ?")) {
             location.href = "/Sport/Sport_Registration?id=" + Registration_Id;
         }
+    }
+    function getDataTable() {
+        $('#tblDoctor').DataTable({
+            "searching": true,
+            //"bStateSave": true,
+            "dom": 'Bfrtip',
+            "autoWidth": false,
+            "buttons": [
+                ,
+                {
+                    extend: 'pageLength'
+                }
+            ],
+            "lengthMenu": [
+                [10, 25, 50, 100, 1000 - 1],
+                ['10 rows', '25 rows', '50 rows', '100 rows', '1000 rows', 'Show all']
+            ]
+        });
     }
 
     function printDiv() {
@@ -165,7 +215,7 @@
         printButton1.style.visibility = 'hidden';
         printButton2.style.visibility = 'hidden';
         printButton3.style.visibility = 'hidden';
-       
+
         //Print the page content
         window.print();
         //var divContents = document.getElementById("divToPrint").innerHTML;
@@ -179,7 +229,7 @@
         //a.print();
         return false;
     }
-   
+
 </script>
 
 
