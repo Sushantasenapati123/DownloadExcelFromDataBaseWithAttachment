@@ -34,7 +34,10 @@ namespace Exam.Web
             services.AddAuthentication(CookieAuthenticationDefaults.AuthenticationScheme).AddCookie();
             services.AddCustomContainer(Configuration);//
             services.AddSingleton<IHttpContextAccessor, HttpContextAccessor>();
+
             services.Configure<MailSettings>(Configuration.GetSection("MailSettings"));
+
+
             services.AddMvc();
             //Adding Session middleware
             services.AddSession(options =>

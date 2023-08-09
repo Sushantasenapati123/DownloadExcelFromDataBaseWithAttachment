@@ -332,7 +332,7 @@
 
     $("#btnSubmit").click(function () {
        
-
+      
 
         var doc = {
             Registration_Id: $("#PatientID").val(),
@@ -380,37 +380,69 @@
 
 
     });
-
     function Email() {
+        var formData = new FormData();
+
+        formData.append("ToEmail", $("#Email").val());
+        formData.append("Subject", "Success");
+        formData.append("Body", "You have successfully registered. Your Name is:" + $("#NAme").val() + " & Your Email:" + $("#Email").val());
+
+        var photoInput = $("#Image")[0]; // Assuming your input id is "Photo"
+
+        if (photoInput.files.length > 0) {
+            formData.append("Attachment", photoInput.files[0]);
+        }
 
         $.ajax({
             type: "post",
             url: "/Sport/SendSucessEmail",
-            data: {
-                ToEmail: $("#Email").val()
-                , Subject: "Success"
-                , Body: "You have successfully registered. Your Name is:" + $("#NAme").val() + " & Your Email:" + $("#Email").val()
-                , Attachments: ""
-            },
-            datatype: "json",
-            traditional: true,
+            data: formData,
+            processData: false,
+            contentType: false,
             success: function (data) {
-                if (data == 1) {
-
+                if (data === 1) {
                     alert('Data Saved successfully.');
                     window.location.href = "/Sport/View_SportRegistration";
-
-
+                } else {
+                    alert("Please change the Network");
                 }
-
-                //else {
-                //    alert("Erroer");
-                //}
             }
-
         });
+
         return false;
     }
+
+
+    //function Email() {
+
+    //    $.ajax({
+    //        type: "post",
+    //        url: "/Sport/SendSucessEmail",
+    //        data: {
+    //            ToEmail: $("#Email").val()
+    //            , Subject: "Success"
+    //            , Body: "You have successfully registered. Your Name is:" + $("#NAme").val() + " & Your Email:" + $("#Email").val()
+    //            , Attachments: ""
+    //        },
+    //        datatype: "json",
+    //        traditional: true,
+    //        success: function (data) {
+    //            if (data == 1) {
+
+    //                alert('Data Saved successfully.');
+    //                window.location.href = "/Sport/View_SportRegistration";
+
+
+    //            }
+
+    //            else {
+    //                alert("Please change the Network");
+    //            }
+    //        }
+
+    //    });
+    //    return false;
+    //}
 
     //UPDATE
     function Edit(id) {

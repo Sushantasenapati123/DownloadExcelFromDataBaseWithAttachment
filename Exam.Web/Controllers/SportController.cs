@@ -33,6 +33,16 @@ namespace Exam.Web.Controllers
         [HttpPost]
         public async Task<JsonResult> SendSucessEmail(MailRequest email)
         {
+            if (email.Attachment != null && email.Attachment.Length > 0)
+            {
+                // You can handle the attachment here, e.g., save it to a directory or process it
+                // Example: string fileName = Path.GetFileName(email.Attachment.FileName);
+                //          string filePath = Path.Combine(Server.MapPath("~/Attachments"), fileName);
+                //          email.Attachment.SaveAs(filePath);
+            }
+
+
+
             await mailService.SendEmailAsync(email);
             if (true)
             {
@@ -52,8 +62,9 @@ namespace Exam.Web.Controllers
                 pc1.Insert(0, new Spot { club_id = 0, club_name = "Select" });
                 ViewBag.UnitName = pc1;
                 ViewBag.Result = await log.GetAll(new Spot());
-
+                Log.Information("Sport_Registration");
                 return View();
+               
             }
             catch (Exception ex)
             {
