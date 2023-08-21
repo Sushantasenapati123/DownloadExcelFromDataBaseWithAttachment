@@ -349,12 +349,6 @@
 
         };
         if (validate() && emailValidate('Email', 'lblError') == true && Phonevalidate('Mobile', 'lblErrorPhone') == true && NamevalidationC('NAme', 'lblErrorName')) {
-
-
-
-
-
-
             $.ajax({
                 url: "/Sport/Add",
                 data: doc,
@@ -366,8 +360,6 @@
                         Email();
                         //alert(result);
                         //window.location.href = "/Sport/View_SportRegistration";
-
-
                     }
 
                 },
@@ -395,7 +387,7 @@
 
         $.ajax({
             type: "post",
-            url: "/Sport/SendSucessEmail",
+            url: "/Sport/SendEmailAsyncFromAPath",//SendEmailAsyncFromAPath OR SendSucessEmail
             data: formData,
             processData: false,
             contentType: false,

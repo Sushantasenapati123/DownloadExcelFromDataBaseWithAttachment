@@ -5,6 +5,7 @@ using Exam.Domain.Email;
 using System.IO;
 using System.Threading.Tasks;
 using Exam.IRepository.Email;
+using System.Net.Mail;
 
 namespace Exam.Repository.Email
 {
@@ -15,8 +16,6 @@ namespace Exam.Repository.Email
         {
             _mailSettings = mailSettings.Value;
         }
-
-
         public async Task SendEmailAsync(MailRequest mailRequest)
         {
             //mailRequest.Attachment = Microsoft.AspNetCore.Http.FormFile;
@@ -38,8 +37,8 @@ namespace Exam.Repository.Email
                 }
             }
 
-            email.Body = builder.ToMessageBody();
 
+            email.Body = builder.ToMessageBody();
             using var smtp = new MailKit.Net.Smtp.SmtpClient();
             smtp.Connect(_mailSettings.Host, _mailSettings.Port, SecureSocketOptions.StartTls);
             smtp.Authenticate(_mailSettings.Mail, _mailSettings.Password);
@@ -47,55 +46,31 @@ namespace Exam.Repository.Email
             smtp.Disconnect(true);
         }
 
+        public async Task SendEmailAsyncFromAPath(MailRequest mailRequest)
+        {
+            var email = new MimeMessage();
+            email.Sender = MailboxAddress.Parse(_mailSettings.Mail);
+            email.To.Add(MailboxAddress.Parse(mailRequest.ToEmail));
+            email.Subject = mailRequest.Subject;
 
+            var builder = new BodyBuilder();
+            builder.HtmlBody = mailRequest.Body;
 
+            if (mailRequest.AttachmentBytes != null && mailRequest.AttachmentBytes.Length > 0)
+            {
+                using (var ms = new MemoryStream(mailRequest.AttachmentBytes))
+                {
+                    var fileBytes = ms.ToArray();
+                    builder.Attachments.Add("pro1.jpg", fileBytes, ContentType.Parse("image/jpeg"));
+                }
+            }
 
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-        //public async Task SendEmailAsync(MailRequest mailRequest)
-        //{
-        //    var email = new MimeMessage();
-        //    email.Sender = MailboxAddress.Parse(_mailSettings.Mail);
-        //    email.To.Add(MailboxAddress.Parse(mailRequest.ToEmail));
-        //    email.Subject = mailRequest.Subject;
-        //    var builder = new BodyBuilder();
-        //    if (mailRequest.Attachments != null)
-        //    {
-        //        byte[] fileBytes;
-        //        foreach (var file in mailRequest.Attachments)
-        //        {
-        //            if (file.Length > 0)
-        //            {
-        //                using (var ms = new MemoryStream())
-        //                {
-        //                    file.CopyTo(ms);
-        //                    fileBytes = ms.ToArray();
-        //                }
-        //                builder.Attachments.Add(file.FileName, fileBytes, ContentType.Parse(file.ContentType));
-        //            }
-        //        }
-
-        //    }
-        //    builder.HtmlBody = mailRequest.Body;
-        //    email.Body = builder.ToMessageBody();
-        //    using var smtp = new MailKit.Net.Smtp.SmtpClient();
-        //    smtp.Connect(_mailSettings.Host, _mailSettings.Port, SecureSocketOptions.StartTls);
-        //    smtp.Authenticate(_mailSettings.Mail, _mailSettings.Password);
-        //    await smtp.SendAsync(email);
-        //    smtp.Disconnect(true);
-        //}
+            email.Body = builder.ToMessageBody();
+            using var smtp = new MailKit.Net.Smtp.SmtpClient();
+            smtp.Connect(_mailSettings.Host, _mailSettings.Port, SecureSocketOptions.StartTls);
+            smtp.Authenticate(_mailSettings.Mail, _mailSettings.Password);
+            await smtp.SendAsync(email);
+            smtp.Disconnect(true);
+        }
     }
 }

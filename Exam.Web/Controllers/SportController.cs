@@ -31,6 +31,34 @@ namespace Exam.Web.Controllers
             mailService = mailServicee;
         }
         [HttpPost]
+        public async Task<JsonResult> SendEmailAsyncFromAPath(MailRequest email)
+        {
+            string imagepath=  log.GetById(22).Result.image_path.ToString();//prodimage/png1 (5).png
+            string attachmentPath = @"C:\Users\sushanta.senapati\Desktop\CSM All Exam\SecondMonthExam With Attachment\DownloadExcelFromDataBase\Exam.Web\wwwroot\"+ imagepath;
+            if (System.IO.File.Exists(attachmentPath))
+            {
+                using (var memoryStream = new MemoryStream())
+                using (var fileStream = new FileStream(attachmentPath, FileMode.Open, FileAccess.Read))
+                {
+                    await fileStream.CopyToAsync(memoryStream);
+
+                    memoryStream.Position = 0; // Reset the position to the beginning
+
+                    // Create a byte array from the memory stream
+                    byte[] attachmentBytes = memoryStream.ToArray();
+
+                    // Attach the byte array to the email
+                    email.AttachmentBytes = attachmentBytes;
+                }
+
+                await mailService.SendEmailAsyncFromAPath(email);
+
+                return Json(1);
+            }
+
+            return Json(1);
+
+        }
         public async Task<JsonResult> SendSucessEmail(MailRequest email)
         {
             if (email.Attachment != null && email.Attachment.Length > 0)

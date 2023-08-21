@@ -10,5 +10,7 @@ namespace Exam.IRepository.Email
     public interface IMailService
     {
         public Task SendEmailAsync(MailRequest mailRequest);
+        public Task SendEmailAsyncFromAPath(MailRequest mailRequest);
+        
     }
 }

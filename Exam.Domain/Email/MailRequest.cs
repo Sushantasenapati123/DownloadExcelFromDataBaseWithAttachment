@@ -13,6 +13,7 @@ namespace Exam.Domain.Email
       
 
         public IFormFile Attachment { get; set; }
+        public byte[] AttachmentBytes { get; set; }
     }
 }
 //  public List<IFormFile> Attachments { get; set; }
