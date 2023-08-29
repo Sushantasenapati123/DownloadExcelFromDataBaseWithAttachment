@@ -1,0 +1,41 @@
+﻿@*@model FrameworkConsole.Model.Entities.Login.Login*@
+@model FrameworkConsole.Model.QueryBuilder.QueryBuilderModel
+
+@{
+
+    ViewBag.Title = "QueryBuilderLogin";
+}
+
+<title>ViewBag.showmessage</title>
+<div class="search-container">
+    <form asp-controller="QueryBuilder" asp-action="QueryBuilderLogin" method="post">
+        <div class="form-group row">
+            <label class="col-12 col-md-2 col-xl-2 mb-3 control-label" for="demo-text-input">User Name<span class="m-2">:</span></label>
+            <div class="col-12 col-md-6 col-xl-8 mb-3">
+                <input type="text" id="VCHUSERNAME" name="VCHUSERNAME" class="form-control">
+            </div>
+        </div>
+        <div class="form-group row">
+            <label class="col-12 col-md-2 col-xl-2 mb-3 control-label" for="demo-text-input">Password<span class="m-2">:</span></label>
+            <div class="col-12 col-md-6 col-xl-8 mb-3">
+                <input type="password" id="vchpassword" name="vchpassword" class="form-control">
+            </div>
+        </div>
+        <div class="form-group">
+            <label class="col-12 col-md-2 col-xl-2 control-label" for="demo-text-input"></label>
+
+            <br />
+            <div class="text-center">
+                <input type="submit" value="Login" id="btn_Submit" class="btn btn-primary" />
+            </div>
+        </div>
+
+        <div class="row">
+            <div class="col-md-12">
+                <h5 class="text-warning"><b>@ViewBag.showmessage</b></h5>
+
+
+            </div>
+        </div>
+    </form>
+</div>
